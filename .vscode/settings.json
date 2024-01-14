@@ -1,0 +1,5 @@
+{
+    "editor.multiCursorModifier": "ctrlCmd",
+    "workbench.activityBar.location": "side",
+    "workbench.sideBar.location": "right"
+}
