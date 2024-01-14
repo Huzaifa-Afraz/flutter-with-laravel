@@ -85,8 +85,8 @@ Future<ApiResponce> getUserDetail() async {
         final errors = jsonDecode(responce.body)['errors'];
         apiResponce.error = errors[errors.keys.elementAt(0)][0];
         break;
-      case 403:
-        apiResponce.error = jsonDecode(responce.body)['msg'];
+      case 401:
+        apiResponce.error = unauthorizedError;
         break;
       default:
         apiResponce.error = somethingwentwrongError;
@@ -102,4 +102,16 @@ Future<ApiResponce> getUserDetail() async {
 Future<String> getToken() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getString('token') ?? '';
+}
+
+// get user id from shared preferences
+Future<bool> logout() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return await pref.remove('userid');
+}
+
+// get user id from shared preferences
+Future<int> getUserId() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return pref.getInt('userid') ?? 0;
 }
