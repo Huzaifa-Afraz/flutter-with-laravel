@@ -33,8 +33,17 @@ class _LoadingState extends State<Loading> {
           (route) => false,
         );
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('${responce.error}')));
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(SnackBar(content: Text('${responce.error}')));
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => const Login())),
+          (route) => false,
+        );
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(SnackBar(content: Text('${responce.error}')));
+        // showSnackBar(context, '${responce.error}');
+        // showSnackBar(context, 'message');
+        // showNotification('${responce.error}');
       }
     }
   }

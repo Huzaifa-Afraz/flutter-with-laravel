@@ -26,7 +26,8 @@ Future<ApiResponce> login(String email, String password) async {
         apiResponce.error = jsonDecode(responce.body)['msg'];
         break;
       default:
-        apiResponce.error = somethingwentwrongError;
+        apiResponce.error =
+            'Unexpected status code: ${responce.statusCode}' + loginURL;
         break;
     }
   } catch (e) {
