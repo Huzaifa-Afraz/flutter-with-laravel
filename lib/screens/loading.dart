@@ -42,7 +42,7 @@ class _LoadingState extends State<Loading> {
         // ScaffoldMessenger.of(context)
         //     .showSnackBar(SnackBar(content: Text('${responce.error}')));
         // showSnackBar(context, '${responce.error}');
-        // showSnackBar(context, 'message');
+        showSnackBar(context, 'message');
         // showNotification('${responce.error}');
       }
     }

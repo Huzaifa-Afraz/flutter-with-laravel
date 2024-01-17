@@ -97,7 +97,7 @@ class _RegisterState extends State<Register> {
                 height: 10,
               ),
               loading
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : txtButton('Resister', () {
