@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:blog_front_end/constant.dart';
 import 'package:blog_front_end/models/api_responce.dart';
+import 'package:blog_front_end/models/post.dart';
 import 'package:blog_front_end/screens/home.dart';
 import 'package:blog_front_end/screens/loading.dart';
 import 'package:blog_front_end/screens/login.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostForm extends StatefulWidget {
-  const PostForm({super.key});
+  const PostForm({super.key, required String title, required Post post});
 
   @override
   State<PostForm> createState() => _PostFormState();

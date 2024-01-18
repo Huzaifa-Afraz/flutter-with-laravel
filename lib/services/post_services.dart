@@ -3,38 +3,56 @@ import 'dart:convert';
 import 'package:blog_front_end/constant.dart';
 import 'package:blog_front_end/models/User.dart';
 import 'package:blog_front_end/models/api_responce.dart';
+import 'package:blog_front_end/models/post.dart';
 import 'package:blog_front_end/services/user_services.dart';
 import 'package:http/http.dart ' as http;
 
+void logMessage(String error) {
+  print('error: $error');
+}
+
 // get all posts
 Future<ApiResponce> getPosts() async {
-  ApiResponce apiResponce = ApiResponce();
+  ApiResponce apiResponse = ApiResponce();
   try {
+    logMessage('working 1');
     String token = await getToken();
-    final responce = await http.get(Uri.parse(postsURL), headers: {
+    logMessage('working 2: $token');
+    final response = await http.get(Uri.parse(postsURL), headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     });
-    switch (responce.statusCode) {
+    // logMessage('working 3: ${response.body}');
+
+    switch (response.statusCode) {
       case 200:
-        apiResponce.data = User.fromJson(jsonDecode(responce.body));
+        // apiResponse.data = Post.fromJson(jsonDecode(response.body));
+        // ['posts']
+        //     .map((p) => Post.fromJson(p))
+        //     .toList());
+        // apiResponse.data as List<dynamic>;
+
+        var postResponce = jsonDecode(response.body)['posts'] as List;
+        List<Post> Posts = postResponce
+            .map((tagJson) =>
+                Post.fromJson('$postResponce' as Map<String, dynamic>))
+            .toList();
+        logMessage('post : $Posts');
+        apiResponse.data = Posts;
+
+        logMessage('${apiResponse.data}');
         break;
-      case 422:
-        final errors = jsonDecode(responce.body)['errors'];
-        apiResponce.error = errors[errors.keys.elementAt(0)][0];
-        break;
-      case 403:
-        apiResponce.error = jsonDecode(responce.body)['msg'];
+      case 401:
+        apiResponse.error = unauthorizedError;
         break;
       default:
-        apiResponce.error =
-            'Unexpected status code: ${responce.statusCode}' + loginURL;
+        apiResponse.error = somethingwentwrongError;
         break;
     }
   } catch (e) {
-    apiResponce.error = serverError;
+    apiResponse.error = serverError;
   }
-  return apiResponce;
+  return apiResponse;
 }
 
 // insert a new post
