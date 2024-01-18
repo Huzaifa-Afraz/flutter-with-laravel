@@ -8,7 +8,7 @@ const loginURL = '$baseURL/api/login';
 const registerURL = '$baseURL/api/register';
 const logoutURL = '$baseURL/api/logout';
 const userURL = '$baseURL/user';
-const postsURL = '$baseURL/posts';
+const postsURL = '$baseURL/api/posts';
 const commentsURL = '$baseURL/comments';
 
 // errors

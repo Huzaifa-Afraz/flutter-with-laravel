@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:blog_front_end/constant.dart';
 import 'package:blog_front_end/models/User.dart';
 import 'package:blog_front_end/models/api_responce.dart';
+import 'package:blog_front_end/models/post.dart';
 import 'package:http/http.dart ' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,11 +82,10 @@ Future<ApiResponce> getUserDetail() async {
     });
     switch (responce.statusCode) {
       case 200:
-        apiResponce.data = User.fromJson(jsonDecode(responce.body));
-        break;
-      case 422:
-        final errors = jsonDecode(responce.body)['errors'];
-        apiResponce.error = errors[errors.keys.elementAt(0)][0];
+        apiResponce.data = jsonDecode(responce.body)['posts']
+            .map((p) => Post.fromJson(p))
+            .toList();
+        apiResponce.data as List<dynamic>;
         break;
       case 401:
         apiResponce.error = unauthorizedError;
@@ -115,4 +116,10 @@ Future<bool> logout() async {
 Future<int> getUserId() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getInt('userid') ?? 0;
+}
+
+// get imagestring
+String? getStringImage(File? file) {
+  if (file == null) return null;
+  return base64Encode(file.readAsBytesSync());
 }
